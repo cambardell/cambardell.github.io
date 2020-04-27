@@ -10,11 +10,16 @@ body {
 
 #header {
     font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-family: "menlo", sans-serif; !important
 }
 
+h3 {
+    margin-bottom: -0.7rem;
+    margin-top: -0.7rem;
+}
 
-
-h1, h2 {
+h2 {
     font-weight: 500;
     font-family: "menlo", sans-serif;
     word-spacing: -0.3em;
@@ -29,18 +34,72 @@ h1, h2 {
     color: #A8201A;
 }
 
-#app-title {
+#resume-title {
     font-family: "menlo", sans-serif;
     font-weight: 200;
     color: #A8201A;
+    
 /*    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
 /*    padding: 7px;*/
 /*    border-radius: 1rem;*/
 }
 
 a {
-    font-family: "menlo", sans-serif;
     color: #A8201A;
     text-decoration: underline;
 }
 
+#hidden-text {
+    color: #A8201A;
+}
+
+h5 {
+    font-size: 1rem;
+    font-weight: normal;
+    font-family: "Manrope", sans-serif;
+    word-spacing: 0.5rem;
+    line-height: 0.5rem; 
+}
+
+.resume-sidebar {
+  overflow: hidden;
+}
+
+.resume-sidebar > * {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(2rem  / 2 * -1);
+}
+
+.resume-sidebar > * > * {
+  margin: calc(2rem  / 2);
+  flex-basis: 25rem;
+  flex-grow: 1;
+  
+}
+
+.resume-sidebar > * > :first-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: calc(50% - 2rem );
+  
+}
+
+.resume-sidebar > * > :last-child {
+    padding-left: 1rem;
+    padding-right: 1rem; 
+    background: #A8201A;
+    color: white; !important
+}
+
+.resume-sidebar > * > :last-child h2 {
+    color: white;
+    font-weight: 500;
+    font-family: "menlo", sans-serif;
+}
+  
+.resume-sidebar > * > :last-child a {
+    color: white;
+    font-weight: normal;
+    font-family: "menlo", sans-serif;
+}
