@@ -17,7 +17,7 @@
                     <span class="type">Spacer</span>()
                 }
             }.<span class="call">padding</span>()
-
+            
             <span class="type">HStack</span>(alignment: .<span class="dotAccess">bottom</span>) {
                 <span class="type">ForEach</span>(data, id: \.<span class="keyword">self</span>) { item <span class="keyword">in</span>
                     <span class="type">VStack</span> {
@@ -25,10 +25,10 @@
                         <span class="type">ZStack</span> {
                             <span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">4</span>)
                                 .<span class="call">fill</span>(<span class="type">Color</span>.<span class="property">rippleRed</span>)
-
+                            
                         }.<span class="call">scaleEffect</span>(<span class="type">CGSize</span>(width: <span class="number">0.7</span>, height: item), anchor: .<span class="dotAccess">bottom</span>)
                     }
-
+                    
                 }
             }.<span class="call">padding</span>()
         }
@@ -40,7 +40,7 @@
 }
 </code></pre><p>An easy to make SwiftUI bar graph, used in this case to present weekly data. ZStacks are useful for creating axis lines.</p><a href="#Bar Graph in SwiftUI">2020-06-27</a></div><div class="content" id="Page View in SwiftUI with spring animation"><h1>Page View in SwiftUI with spring animation</h1><pre><code><span class="keyword">struct</span> PageView&lt;Content: <span class="type">View</span>&gt;: <span class="type">View</span> {
     <span class="keyword">@Binding var</span> pageIndex: <span class="type">Int</span>
-
+    
     <span class="keyword">let</span> pageCount: <span class="type">Int</span>
 
     <span class="keyword">let</span> content: <span class="type">Content</span>
@@ -50,7 +50,7 @@
         <span class="keyword">self</span>.<span class="property">_pageIndex</span> = pageIndex
         <span class="keyword">self</span>.<span class="property">content</span> = <span class="call">content</span>()
     }
-
+    
     <span class="keyword">@GestureState private var</span> translation: <span class="type">CGFloat</span> = <span class="number">0</span>
 
     <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> {
@@ -62,12 +62,12 @@
             .<span class="call">offset</span>(x: -<span class="type">CGFloat</span>(<span class="keyword">self</span>.<span class="property">pageIndex</span>) * geometry.<span class="property">size</span>.<span class="property">width</span>)
             .<span class="call">offset</span>(x: <span class="keyword">self</span>.<span class="property">translation</span>)
             .<span class="call">animation</span>(.<span class="call">spring</span>(response: <span class="number">0.4</span>, dampingFraction: <span class="number">0.6</span>, blendDuration: <span class="number">0.2</span>))
-
+                
             .<span class="call">gesture</span>(
                 <span class="type">DragGesture</span>().<span class="call">updating</span>(<span class="keyword">self</span>.$translation) { value, state, <span class="keyword">_ in</span>
                     state = value.<span class="property">translation</span>.<span class="property">width</span>
                 }.<span class="call">onEnded</span> { value <span class="keyword">in
-
+                    
                     let</span> offset = value.<span class="property">translation</span>.<span class="property">width</span> / geometry.<span class="property">size</span>.<span class="property">width</span>
                     <span class="keyword">let</span> newIndex = (<span class="type">CGFloat</span>(<span class="keyword">self</span>.<span class="property">pageIndex</span>) - offset).<span class="call">rounded</span>()
                     <span class="keyword">self</span>.<span class="property">pageIndex</span> = <span class="call">min</span>(<span class="call">max</span>(<span class="type">Int</span>(newIndex), <span class="number">0</span>), <span class="keyword">self</span>.<span class="property">pageCount</span> - <span class="number">1</span>)
@@ -77,19 +77,19 @@
     }
 }
 </code></pre><p>A reusable page view component with a custom spring animation. Takes any content and supports any number of pages.</p><a href="#Page View in SwiftUI with spring animation">2020-06-19</a></div><div class="content" id="Firebase Authentication Session with SwiftUI"><h1>Firebase Authentication Session with SwiftUI</h1><pre><code><span class="keyword">class</span> FirebaseSession: <span class="type">ObservableObject</span> {
-
+    
     <span class="comment">//MARK: Properties</span>
     <span class="keyword">@Published var</span> workouts: [<span class="type">Workout</span>] = []
     <span class="keyword">@Published var</span> exercises: [<span class="type">Exercise</span>] = []
-
+    
     <span class="keyword">let</span> db = <span class="type">Firestore</span>.<span class="call">firestore</span>()
-
+    
     <span class="keyword">var</span> didChange = <span class="type">PassthroughSubject</span>&lt;<span class="type">FirebaseSession</span>, <span class="type">Never</span>&gt;()
     <span class="keyword">@Published var</span> session: <span class="type">User</span>? { <span class="keyword">didSet</span> { <span class="keyword">self</span>.<span class="property">didChange</span>.<span class="call">send</span>(<span class="keyword">self</span>) }}
     <span class="keyword">var</span> handle: <span class="type">AuthStateDidChangeListenerHandle</span>?
-
+    
     <span class="comment">//MARK: Authentication functions</span>
-
+    
     <span class="keyword">func</span> listen () {
         <span class="comment">// monitor authentication changes using firebase</span>
         handle = <span class="type">Auth</span>.<span class="call">auth</span>().<span class="call">addStateDidChangeListener</span> { (auth, user) <span class="keyword">in
@@ -107,14 +107,14 @@
             }
         }
     }
-
+    
     <span class="keyword">func</span> signUp(
         email: <span class="type">String</span>,
         password: <span class="type">String</span>,
         handler: <span class="keyword">@escaping</span> <span class="type">AuthDataResultCallback</span>
     ) {
-
-
+      
+        
     }
 
     <span class="keyword">func</span> signIn(
@@ -134,7 +134,7 @@
             <span class="keyword">return false</span>
         }
     }
-
+    
     <span class="keyword">func</span> unbind () {
         <span class="keyword">if let</span> handle = handle {
             <span class="type">Auth</span>.<span class="call">auth</span>().<span class="call">removeStateDidChangeListener</span>(handle)
@@ -143,14 +143,14 @@
 
 }
 </code></pre><p>Using Combine's ObservableObject with Firebase and SwiftUI is a great way to track the authentication state of the user. This way, I can conditionally display SignIn or MainContent, depending on the user's auth state.</p><pre><code><span class="keyword">struct</span> ContentView: <span class="type">View</span> {
-
+    
     <span class="keyword">@EnvironmentObject var</span> session: <span class="type">FirebaseSession</span>
 
     <span class="keyword">func</span> getUser () {
         <span class="call">print</span>(<span class="string">"appear"</span>)
         session.<span class="call">listen</span>()
     }
-
+    
     <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> {
         <span class="type">Group</span> {
           <span class="keyword">if</span> (session.<span class="property">session</span> != <span class="keyword">nil</span>) {
@@ -167,17 +167,17 @@
     <span class="keyword">@State var</span> videoTitle: <span class="type">String</span>
     <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> {
         <span class="type">VStack</span> {
-
+            
             <span class="keyword">if</span> videoURL == <span class="string">""</span> {
                 <span class="type">Text</span>(<span class="string">"Downloading"</span>).<span class="call">onAppear</span>(perform: downloadFromFirebase)
-
-
+                
+                
             } <span class="keyword">else</span> {
                 <span class="type">PlayerContainerView</span>(player: <span class="type">AVPlayer</span>(url: <span class="type">URL</span>(string: videoURL)!), url: videoURL)
             }
         }
     }
-
+    
     <span class="keyword">func</span> downloadFromFirebase() {
         <span class="call">print</span>(<span class="string">"download called"</span>)
         <span class="keyword">let</span> storageRef = storage.<span class="call">reference</span>()
@@ -187,7 +187,7 @@
             if let</span> error = error {
                 <span class="comment">// Handle any errors</span>
                 <span class="call">print</span>(<span class="string">"download error:</span> \(error)<span class="string">"</span>)
-
+                
             } <span class="keyword">else</span> {
                 <span class="call">print</span>(<span class="string">"url:</span> \(<span class="type">String</span>(describing: url))<span class="string">"</span>)
                 <span class="keyword">self</span>.<span class="property">videoURL</span> = url?.<span class="property">absoluteString</span> ?? <span class="string">""</span>
@@ -226,7 +226,7 @@
 </code></pre><p>Embed a stack within a stack, and place at the top level of a ZStack, to have a button (or anything else) floating in the corner of the UI. This button floats in the bottom right.</p><a href="#SwiftUI floating buttons">2020-04-27</a></div><div class="content" id="Month view for SwiftUI calendar"><h1>Month view for SwiftUI calendar</h1><pre><code><span class="keyword">struct</span> MonthGrid&lt;Content: <span class="type">View</span>&gt;: <span class="type">View</span> {
     <span class="keyword">let</span> days: <span class="type">Int</span>
     <span class="keyword">let</span> content: (<span class="type">Int</span>) -&gt; <span class="type">Content</span>
-
+    
     <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> {
         <span class="type">VStack</span>(alignment: .<span class="dotAccess">leading</span>) {
             <span class="type">ForEach</span>(<span class="number">0</span> ..&lt; (days / <span class="number">7</span>), id: \.<span class="keyword">self</span>) { row <span class="keyword">in</span>
@@ -245,7 +245,7 @@
             }
         }
     }
-
+    
     <span class="keyword">init</span>(days: <span class="type">Int</span>, <span class="keyword">@ViewBuilder</span> content: <span class="keyword">@escaping</span> (<span class="type">Int</span>) -&gt; <span class="type">Content</span>) {
         <span class="keyword">self</span>.<span class="property">days</span> = days
         <span class="keyword">self</span>.<span class="property">content</span> = content
